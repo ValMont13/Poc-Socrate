@@ -34,82 +34,82 @@ Parameters:
     Type: String
     Description: The name for a project pipeline stage, such as Staging or Prod, for which resources are provisioned and deployed.
     Default: ""
-  API_SECRET_SCHEDULER:
+  ApiSecretScheduler:
     Type: String
     Description: The secret key for scheduler communications
-  AWS_ACCESS_KEY_ID:
+  AwsAccessKeyId:
     Type: String
-  AWS_SECRET_ACCESS_KEY:
+  AwsSecretAccessKey:
     Type: String
   CURRENCY:
     Type: String
-  EMAIL_RECEIVER:
+  EmailReceiver:
     Type: String
-  EMAIL_SENDER:
+  EmailSender:
     Type: String
-  FILE_MAX_SIZE:
+  FileMaxSize:
     Type: String
-  FILES_URL:
+  FilesUrl:
     Type: String
-  FRONT_URL_ROOT:
+  FrontUrlRoot:
     Type: String
-  IMAGES_URL:
+  ImagesUrl:
     Type: String
-  JACKPOTIO_API_KEY:
+  JackpotioApiKey:
     Type: String
-  JACKPOTIO_API_URL:
+  JackpotioApiUrl:
     Type: String
-  JACKPOTIO_SIGNATURE:
+  JackpotioSignature:
     Type: String
-  JACKPOT_MANGO_ID:
+  JackpotMangoId:
     Type: String
-  JACKPOT_WALLET_ID:
+  JackpotWalletId:
     Type: String
   MANGOID:
     Type: String
   MANGOPASS:
     Type: String
-  MAPBOX_API_KEY:
+  MapboxApiKey:
     Type: String
-  MAPBOX_API_URL:
+  MapboxApiUrl:
     Type: String
-  MENTOR_FEES:
+  MentorFees:
     Type: String
-  MONGODB_URI:
+  MongodbUri:
     Type: String
-  PAPERTRAIL_API_TOKEN:
+  PapertrailApiToken:
     Type: String
-  PAPERTRAIL_PORT:
+  PapertrailPort:
     Type: String
-  PAPERTRAIL_URL:
+  PapertrailUrl:
     Type: String
-  PAYMENT_SERVICE_TYPE:
+  PaymentServiceType:
     Type: String
-  REDIRECT_FORGOT_PASSWORD:
+  RedirectForgotPassword:
     Type: String
   REDIRECTURLVALIDATOR:
     Type: String
-  REDIS_ENDPOINT:
+  RedisEndpoint:
     Type: String
-  S3_BUCKET:
+  S3bucket:
     Type: String
-  S3_ENDPOINT:
+  S3Endpoint:
     Type: String
-  S3_FILES_BUCKET:
+  S3FilesBucket:
     Type: String
-  S3_USER_IMAGES_BUCKET:
+  S3UserImagesBucket:
     Type: String
-  SCHEDULER_MICRO_SERVICE_URL:
+  SchedulerMicroServiceUrl:
     Type: String
-  SCHEDULER_USER_AGENT:
+  SchedulerUserAgent:
     Type: String
-  SEARCHBOX_INDEX:
+  SearchboxIndex:
     Type: String
-  SEARCHBOX_URL:
+  SearchboxUrl:
     Type: String
   URLSECUREMODE:
     Type: String
-  USER_AGENT:
+  UserAgent:
     Type: String
 Resources:
   EBApplication:
@@ -165,55 +165,55 @@ Resources:
           SSLCertificateArns: arn:aws:elasticloadbalancing:eu-central-1:232956168603:loadbalancer/app/awseb-AWSEB-DMA43ZIFEH72/25ef040191209028
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionName: API_SECRET_SCHEDULER
-          Value: !Ref "API_SECRET_SCHEDULER"
+          Value: !Ref "ApiSecretScheduler"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: AWS_ACCESS_KEY_ID
-          Value: !Ref "AWS_ACCESS_KEY_ID"
+          Value: !Ref "AwsAccessKeyId"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: AWS_SECRET_ACCESS_KEY
-          Value: !Ref "AWS_SECRET_ACCESS_KEY"
+          Value: !Ref "AwsSecretAccessKey"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: CURRENCY
           Value: !Ref "CURRENCY"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: EMAIL_RECEIVER
-          Value: !Ref "EMAIL_RECEIVER"
+          Value: !Ref "EmailReceiver"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: EMAIL_SENDER
-          Value: !Ref "EMAIL_SENDER"
+          Value: !Ref "EmailSender"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: FILE_MAX_SIZE
-          Value: !Ref "FILE_MAX_SIZE"
+          Value: !Ref "FileMaxSize"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: FILES_URL
-          Value: !Ref "FILES_URL"
+          Value: !Ref "FilesUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: FRONT_URL_ROOT
-          Value: !Ref "FRONT_URL_ROOT"
+          Value: !Ref "FrontUrlRoot"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: IMAGES_URL
-          Value: !Ref "IMAGES_URL"
+          Value: !Ref "ImagesUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOTIO_API_KEY
-          Value: !Ref "JACKPOTIO_API_KEY"
+          Value: !Ref "JackpotioApiKey"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOTIO_API_URL
-          Value: !Ref "JACKPOTIO_API_URL"
+          Value: !Ref "JackpotioApiUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOTIO_SIGNATURE
-          Value: !Ref "JACKPOTIO_SIGNATURE"
+          Value: !Ref "JackpotioSignature"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOT_MANGO_ID
-          Value: !Ref "JACKPOT_MANGO_ID"
+          Value: !Ref "JackpotMangoId"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOT_MANGO_ID
-          Value: !Ref "JACKPOT_MANGO_ID"
+          Value: !Ref "JackpotMangoId"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOT_MANGO_ID
-          Value: !Ref "JACKPOT_MANGO_ID"
+          Value: !Ref "JackpotMangoId"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: JACKPOT_WALLET_ID
-          Value: !Ref "JACKPOT_WALLET_ID"
+          Value: !Ref "JackpotWalletId"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: MANGOID
           Value: !Ref "MANGOID"
@@ -222,67 +222,67 @@ Resources:
           Value: !Ref "MANGOPASS"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: MAPBOX_API_KEY
-          Value: !Ref "MAPBOX_API_KEY"
+          Value: !Ref "MapboxApiKey"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: MAPBOX_API_URL
-          Value: !Ref "MAPBOX_API_URL"
+          Value: !Ref "MapboxApiUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: MENTOR_FEES
-          Value: !Ref "MENTOR_FEES"
+          Value: !Ref "MentorFees"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: MONGODB_URI
-          Value: !Ref "MONGODB_URI"
+          Value: !Ref "MongodbUri"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: PAPERTRAIL_API_TOKEN
-          Value: !Ref "PAPERTRAIL_API_TOKEN"
+          Value: !Ref "PapertrailApiToken"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: PAPERTRAIL_PORT
-          Value: !Ref "PAPERTRAIL_PORT"
+          Value: !Ref "PapertrailPort"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: PAPERTRAIL_URL
-          Value: !Ref "PAPERTRAIL_URL"
+          Value: !Ref "PapertrailUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: PAYMENT_SERVICE_TYPE
-          Value: !Ref "PAYMENT_SERVICE_TYPE"
+          Value: !Ref "PaymentServiceType"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: REDIRECT_FORGOT_PASSWORD
-          Value: !Ref "REDIRECT_FORGOT_PASSWORD"
+          Value: !Ref "RedirectForgotPassword"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: REDIRECTURLVALIDATOR
           Value: !Ref "REDIRECTURLVALIDATOR"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: REDIS_ENDPOINT
-          Value: !Ref "REDIS_ENDPOINT"
+          Value: !Ref "RedisEndpoint"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: S3_BUCKET
-          Value: !Ref "S3_BUCKET"
+          Value: !Ref "S3bucket"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: S3_ENDPOINT
-          Value: !Ref "S3_ENDPOINT"
+          Value: !Ref "S3Endpoint"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: S3_FILES_BUCKET
-          Value: !Ref "S3_FILES_BUCKET"
+          Value: !Ref "S3FilesBucket"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: S3_USER_IMAGES_BUCKET
-          Value: !Ref "S3_USER_IMAGES_BUCKET"
+          Value: !Ref "S3UserImagesBucket"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: SCHEDULER_MICRO_SERVICE_URL
-          Value: !Ref "SCHEDULER_MICRO_SERVICE_URL"
+          Value: !Ref "SchedulerMicroServiceUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: SCHEDULER_USER_AGENT
-          Value: !Ref "SCHEDULER_USER_AGENT"
+          Value: !Ref "SchedulerUserAgent"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: SEARCHBOX_INDEX
-          Value: !Ref "SEARCHBOX_INDEX"
+          Value: !Ref "SearchboxIndex"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: SEARCHBOX_URL
-          Value: !Ref "SEARCHBOX_URL"
+          Value: !Ref "SearchboxUrl"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: URLSECUREMODE
           Value: !Ref "URLSECUREMODE"
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionalName: USER_AGENT
-          Value: !Ref "USER_AGENT"
+          Value: !Ref "UserAgent"
         - Namespace: aws:autoscaling:launchconfiguration
           OptionName: IamInstanceProfile
           Value: !Ref "EBInstanceProfile"

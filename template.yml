@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform:
-- AWS::CodeStar
+  - AWS::CodeStar
 
 Conditions:
-  UseSubnet: !Not [!Equals [!Ref 'SubnetId', subnet-none]]
+  UseSubnet: !Not [!Equals [!Ref "SubnetId", subnet-none]]
 
 Parameters:
   ProjectId:
@@ -33,63 +33,271 @@ Parameters:
   Stage:
     Type: String
     Description: The name for a project pipeline stage, such as Staging or Prod, for which resources are provisioned and deployed.
-    Default: ''
+    Default: ""
+  API_SECRET_SCHEDULER:
+    Type: String
+    Description: The secret key for scheduler communications
+  AWS_ACCESS_KEY_ID:
+    Type: String
+  AWS_SECRET_ACCESS_KEY:
+    Type: String
+  CURRENCY:
+    Type: String
+  EMAIL_RECEIVER:
+    Type: String
+  EMAIL_SENDER:
+    Type: String
+  FILE_MAX_SIZE:
+    Type: String
+  FILES_URL:
+    Type: String
+  FRONT_URL_ROOT:
+    Type: String
+  IMAGES_URL:
+    Type: String
+  JACKPOTIO_API_KEY:
+    Type: String
+  JACKPOTIO_API_URL:
+    Type: String
+  JACKPOTIO_SIGNATURE:
+    Type: String
+  JACKPOT_MANGO_ID:
+    Type: String
+  JACKPOT_WALLET_ID:
+    Type: String
+  MANGOID:
+    Type: String
+  MANGOPASS:
+    Type: String
+  MAPBOX_API_KEY:
+    Type: String
+  MAPBOX_API_URL:
+    Type: String
+  MENTOR_FEES:
+    Type: String
+  MONGODB_URI:
+    Type: String
+  PAPERTRAIL_API_TOKEN:
+    Type: String
+  PAPERTRAIL_PORT:
+    Type: String
+  PAPERTRAIL_URL:
+    Type: String
+  PAYMENT_SERVICE_TYPE:
+    Type: String
+  REDIRECT_FORGOT_PASSWORD:
+    Type: String
+  REDIRECTURLVALIDATOR:
+    Type: String
+  REDIS_ENDPOINT:
+    Type: String
+  S3_BUCKET:
+    Type:  String
+  S3_ENDPOINT:
+    Type: String
+  S3_FILES_BUCKET:
+    Type: String
+  S3_USER_IMAGES_BUCKET:
+    Type: String
+  SCHEDULER_MICRO_SERVICE_URL:
+    Type: String
+  SCHEDULER_USER_AGENT:
+    Type: String
+  SEARCHBOX_INDEX:
+    Type: String
+  SEARCHBOX_URL:
+    Type: String
+  URLSECUREMODE:
+    Type: String
+  USER_AGENT:
+    Type: String  
 Resources:
   EBApplication:
     Description: The AWS Elastic Beanstalk application, which is a container used to deploy the correct application configuration.
     Type: AWS::ElasticBeanstalk::Application
     Properties:
-      ApplicationName: !Sub '${ProjectId}app${Stage}'
+      ApplicationName: !Sub "${ProjectId}app${Stage}"
       Description: The name of the AWS Elastic Beanstalk application to be created for this project.
   EBApplicationVersion:
     Description: The version of the AWS Elastic Beanstalk application to be created for this project.
     Type: AWS::ElasticBeanstalk::ApplicationVersion
     Properties:
-      ApplicationName: !Ref 'EBApplication'
+      ApplicationName: !Ref "EBApplication"
       Description: The application version number.
-      SourceBundle: '.'
+      SourceBundle: "."
   EBConfigurationTemplate:
     Description: The AWS Elastic Beanstalk configuration template to be created for this project, which defines configuration settings used to deploy different versions of an application.
     Type: AWS::ElasticBeanstalk::ConfigurationTemplate
     Properties:
-      ApplicationName: !Ref 'EBApplication'
+      ApplicationName: !Ref "EBApplication"
       Description: The name of the sample configuration template.
       OptionSettings:
-      - Namespace: aws:elasticbeanstalk:environment
-        OptionName: EnvironmentType
-        Value: SingleInstance
-      - Namespace: aws:elasticbeanstalk:environment
-        OptionName: ServiceRole
-        Value: !Ref 'EBTrustRole'
-      - Namespace: aws:elasticbeanstalk:healthreporting:system
-        OptionName: SystemType
-        Value: enhanced
-      SolutionStackName: !Ref 'SolutionStackName'
+        - Namespace: aws:elasticbeanstalk:environment
+          OptionName: EnvironmentType
+          Value: LoadBalanced
+        - Namespace: aws:elasticbeanstalk:environment
+          OptionName: ServiceRole
+          Value: !Ref "EBTrustRole"
+        - Namespace: aws:elasticbeanstalk:healthreporting:system
+          OptionName: SystemType
+          Value: enhanced
+      SolutionStackName: !Ref "SolutionStackName"
   EBEnvironment:
     Description: The AWS Elastic Beanstalk deployment group where the application is deployed, which is made up of the Amazon EC2 Linux instances launched for this project.
     Type: AWS::ElasticBeanstalk::Environment
     Properties:
-      ApplicationName: !Ref 'EBApplication'
-      EnvironmentName: !Ref 'EBApplication'
+      ApplicationName: !Ref "EBApplication"
+      EnvironmentName: !Ref "EBApplication"
       Description: The application to be deployed to the environment.
-      TemplateName: !Ref 'EBConfigurationTemplate'
-      VersionLabel: !Ref 'EBApplicationVersion'
+      TemplateName: !Ref "EBConfigurationTemplate"
+      VersionLabel: !Ref "EBApplicationVersion"
       OptionSettings:
-      - Namespace: aws:autoscaling:launchconfiguration
-        OptionName: IamInstanceProfile
-        Value: !Ref 'EBInstanceProfile'
-      - Namespace: aws:autoscaling:launchconfiguration
-        OptionName: InstanceType
-        Value: !Ref 'InstanceType'
-      - Namespace: aws:autoscaling:launchconfiguration
-        OptionName: EC2KeyName
-        Value: !Ref 'KeyPairName'
-      - Namespace: aws:ec2:vpc
-        OptionName: VPCId
-        Value: !Ref 'VpcId'
-      - !If
-        - UseSubnet
-        - Namespace: 'aws:ec2:vpc'
-          OptionName: Subnets
-          Value: !Ref 'SubnetId'
-        - !Ref "AWS::NoValue"
+        - Namespace: aws:elbv2:listener:listener_80
+          Protocol: HTTP
+        - Namespace: aws:elbv2:listener:listener_8080  
+          Protocol: HTTP
+        - Namespace: aws:elbv2:listener:listener_3030
+          Protocol: HTTP
+        - Namespace: aws:elbv2:listener:listener_4242
+          Protocol: HTTP
+        - Namespace: aws:elbv2:listener:listener_443
+          Protocol: HTTPS
+	        SSLCertificateArns: arn:aws:elasticloadbalancing:eu-central-1:232956168603:loadbalancer/app/awseb-AWSEB-DMA43ZIFEH72/25ef040191209028
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: API_SECRET_SCHEDULER
+          Value: !Ref "API_SECRET_SCHEDULER"
+	      - Namespace: aws:elasticbeanstalk:application:environment
+	        OptionalName: AWS_ACCESS_KEY_ID
+	        Value: !Ref "AWS_ACCESS_KEY_ID"
+	      - Namespace: aws:elasticbeanstalk:application:environment
+	        OptionalName: AWS_SECRET_ACCESS_KEY
+	        Value: !Ref "AWS_SECRET_ACCESS_KEY"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: CURRENCY
+          Value: !Ref "CURRENCY"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: EMAIL_RECEIVER
+          Value: !Ref "EMAIL_RECEIVER"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: EMAIL_SENDER
+          Value: !Ref "EMAIL_SENDER"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: FILE_MAX_SIZE
+          Value: !Ref "FILE_MAX_SIZE"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: FILES_URL
+          Value: !Ref "FILES_URL"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: FRONT_URL_ROOT   
+          Value: !Ref "FRONT_URL_ROOT"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: IMAGES_URL    
+          Value: !Ref "IMAGES_URL"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOTIO_API_KEY
+          Value: !Ref "JACKPOTIO_API_KEY"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOTIO_API_URL
+          Value: !Ref "JACKPOTIO_API_URL"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOTIO_SIGNATURE
+          Value: !Ref "JACKPOTIO_SIGNATURE"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOT_MANGO_ID
+          Value: !Ref "JACKPOT_MANGO_ID"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOT_MANGO_ID   
+          Value: !Ref "JACKPOT_MANGO_ID"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOT_MANGO_ID
+          Value: !Ref "JACKPOT_MANGO_ID"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: JACKPOT_WALLET_ID
+          Value: !Ref "JACKPOT_WALLET_ID"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MANGOID
+          Value: !Ref "MANGOID"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MANGOPASS 
+          Value: !Ref "MANGOPASS"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MAPBOX_API_KEY
+          Value: !Ref "MAPBOX_API_KEY"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MAPBOX_API_URL
+          Value: !Ref "MAPBOX_API_URL" 
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MENTOR_FEES
+          Value: !Ref "MENTOR_FEES"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: MONGODB_URI
+          Value: !Ref "MONGODB_URI"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: PAPERTRAIL_API_TOKEN
+          Value: !Ref "PAPERTRAIL_API_TOKEN"
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: PAPERTRAIL_PORT
+          Value: !Ref "PAPERTRAIL_PORT"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: PAPERTRAIL_URL
+          Value: !Ref "PAPERTRAIL_URL"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: PAYMENT_SERVICE_TYPE
+          Value: !Ref "PAYMENT_SERVICE_TYPE"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: REDIRECT_FORGOT_PASSWORD
+          Value: !Ref "REDIRECT_FORGOT_PASSWORD"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: REDIRECTURLVALIDATOR
+          Value: !Ref "REDIRECTURLVALIDATOR"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: REDIS_ENDPOINT    
+          Value: !Ref "REDIS_ENDPOINT"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: S3_BUCKET
+          Value: !Ref "S3_BUCKET"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: S3_ENDPOINT
+          Value: !Ref "S3_ENDPOINT"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: S3_FILES_BUCKET
+          Value: !Ref "S3_FILES_BUCKET"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: S3_USER_IMAGES_BUCKET 
+          Value: !Ref "S3_USER_IMAGES_BUCKET"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: SCHEDULER_MICRO_SERVICE_URL
+          Value: !Ref "SCHEDULER_MICRO_SERVICE_URL"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: SCHEDULER_USER_AGENT
+          Value: !Ref "SCHEDULER_USER_AGENT"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: SEARCHBOX_INDEX
+          Value: !Ref "SEARCHBOX_INDEX"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: SEARCHBOX_URL
+          Value: !Ref "SEARCHBOX_URL"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: URLSECUREMODE
+          Value: !Ref "URLSECUREMODE"
+       - Namespace: aws:elasticbeanstalk:application:environment
+          OptionalName: USER_AGENT
+          Value: !Ref "USER_AGENT"  
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: IamInstanceProfile
+          Value: !Ref "EBInstanceProfile"
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: InstanceType
+          Value: !Ref "InstanceType"
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: EC2KeyName
+          Value: !Ref "KeyPairName"
+        - Namespace: aws:ec2:vpc
+          OptionName: VPCId
+          Value: !Ref "VpcId"
+        - !If
+          - UseSubnet
+          - Namespace: "aws:ec2:vpc"
+            OptionName: Subnets
+            Value: !Ref "SubnetId"
+          - !Ref "AWS::NoValue"
